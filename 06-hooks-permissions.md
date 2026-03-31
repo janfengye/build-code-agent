@@ -104,6 +104,10 @@ export type ToolPermissionContext = {
 
 `prePlanMode` 保存进入 `plan` 模式之前的原始模式，退出时可以还原。这种"模式栈"设计让状态切换是可逆的。
 
+![五档权限安全模式手绘示意图](images/ch06-permission-modes.png)
+
+*手绘图：五档权限安全模式——从 bypassPermissions 到 dontAsk 的策略全景*
+
 ```mermaid
 stateDiagram-v2
     [*] --> default: 会话启动
@@ -195,6 +199,10 @@ switch (result.behavior) {
 这种**竞争式多路合并**设计确保了无论通过哪种渠道授权，都能快速响应。
 
 > **关键洞察**：`useCanUseTool` 的签名中有 `forceDecision` 参数。这是一个逃生舱——调用方可以强制注入决定，跳过所有检查。测试和 CI/CD 场景会用到它。
+
+![useCanUseTool 权限检查流程手绘示意图](images/ch06-permission-flow.png)
+
+*手绘图：useCanUseTool 权限检查流程——从中止检查到多路竞争确认*
 
 ```mermaid
 flowchart TD

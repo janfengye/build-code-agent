@@ -4,6 +4,10 @@
 
 这一章我们从零搭建一个叫做 **MiniAgent** 的 Code Agent。它不是玩具——它具备真正的文件读写、命令执行、代码搜索能力，以及一个可以和它对话的 REPL 界面。代码全部可运行，跟着做完你就有了一个属于自己的 Agent。
 
+![MiniAgent 实战架构](images/ch08-miniagent.png)
+
+*手绘图：MiniAgent 完整架构——从用户输入到工具执行的端到端流程*
+
 ```mermaid
 graph TD
     User["用户输入"] --> CLI["CLI\nreadline REPL"]

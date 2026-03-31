@@ -76,6 +76,10 @@ const systemPrompt = asSystemPrompt([
 
 > **关键设计：** `QueryEngine` 维护 `mutableMessages` 数组，它跨越多次 `submitMessage()` 调用持久存在。这是整个对话历史的真相来源（source of truth）。每一轮对话结束后，新消息会被追加进去，供下一轮使用。
 
+![QueryEngine 核心引擎手绘示意图](images/ch05-query-engine.png)
+
+*手绘图：QueryEngine 核心引擎——从 submitMessage 到 query() 的数据流*
+
 ```mermaid
 flowchart TD
     A["submitMessage(userInput)"] --> B["processUserInput()\n文本 / 图片 / 文件 / slash 命令"]
@@ -365,6 +369,10 @@ for (const result of streamingToolExecutor.getCompletedResults()) {
 ```
 
 **结果的顺序保证也很重要。** 即使工具并行执行，结果必须按工具被添加的顺序 yield——这样上层代码看到的消息顺序是确定的，transcript（对话记录）也是正确的。
+
+![StreamingToolExecutor 流式工具执行手绘示意图](images/ch05-streaming-executor.png)
+
+*手绘图：StreamingToolExecutor 流式工具执行——并发安全与串行调度机制*
 
 ```mermaid
 graph TD

@@ -20,6 +20,9 @@
 
 这就是 **Code Agent**。
 
+![Code Agent 全局架构](images/ch01-architecture.png)
+*手绘图：Code Agent 全局架构——从用户输入到工具执行的完整数据流*
+
 ```mermaid
 graph TD
     A[用户输入] --> B[CLI 入口 cli.tsx]
@@ -42,6 +45,9 @@ graph TD
 ---
 
 ## Chatbot、Copilot 和 Agent：三种不同的东西
+
+![Chatbot vs Copilot vs Agent 对比](images/ch01-paradigms.png)
+*手绘图：Chatbot、Copilot 与 Agent 三种范式的本质区别*
 
 很多人把这三个概念混用，但它们在架构上截然不同。
 
@@ -327,6 +333,9 @@ async function* agentLoop(userMessage, tools, systemPrompt) {
 ```
 
 这就是核心。真实的 `queryLoop()` 在这个骨架上叠加了：错误处理、token 计数、权限检查、上下文压缩、流式恢复、并发控制……但本质逻辑从未改变。
+
+![Agent 循环 while(true) 概念图](images/ch01-agent-loop.png)
+*手绘图：Agent 循环的本质——while(true) 驱动的工具调用迭代*
 
 ```mermaid
 flowchart TD

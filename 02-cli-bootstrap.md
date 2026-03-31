@@ -4,6 +4,9 @@
 
 当你在终端敲下这四个字母并按下回车，一场精心设计的初始化序列悄然展开。在你看到第一行输出之前，代码已经完成了十几项工作：检查运行环境、解析参数、预热缓存、初始化状态……这一章，我们将这个过程拆开来看，理解一个 Code Agent 是如何从零开始"醒来"的。
 
+![CLI 启动流程](images/ch02-startup-flow.png)
+*手绘图：从 `claude` 命令到 Agent 就绪的完整启动流程*
+
 ```mermaid
 flowchart TD
     A["用户执行 claude [args]"] --> B["cli.tsx main()"]
@@ -354,6 +357,9 @@ if (projectConfig.lastCost !== undefined && projectConfig.lastDuration !== undef
 
 在新会话开始时记录上一次会话的退出数据——这是个聪明的设计。上一次会话退出时可能来不及上报，或者进程被强制终止。下次启动时补报，既保证了数据完整性，又不会因为"关闭时的上报"影响退出速度。
 
+![setup() 初始化七步](images/ch02-setup-steps.png)
+*手绘图：setup() 函数的七个初始化步骤及其顺序约束*
+
 ```mermaid
 flowchart TD
     A["setup(cwd, permissionMode, ...)"] --> B["步骤1: Node.js 版本检查\n< 18 则 process.exit(1)"]
@@ -451,6 +457,9 @@ export async function launchRepl(
 `renderAndRun` 是 Ink 提供的函数，它把这个 React 元素树挂载到终端，接管标准输入输出，并开始事件循环——直到用户输入 `/exit` 或按 Ctrl+C。
 
 从这一刻起，Agent 开始了它真正的生命：**监听输入，调用工具，输出结果，等待下一轮**。
+
+![React/Ink 终端渲染](images/ch02-ink-render.png)
+*手绘图：React/Ink 如何将组件树渲染到终端，驱动交互式 REPL*
 
 ```mermaid
 flowchart TD

@@ -4,6 +4,10 @@
 
 每一个工程师在第一次用 Claude Code 完成某项重复性任务后，都会产生同一个念头：能不能把这个过程固化下来，下次直接调用？Claude Code 的答案是三层扩展机制：**Skills**（技能）、**Plugins**（插件）和 **MCP**（Model Context Protocol）。这三者共同构成了一套从轻量脚本到跨进程工具调用的完整生态。
 
+![三层扩展机制](images/ch07-extension-layers.png)
+
+*手绘图：三层扩展机制——Skills、Plugins、MCP 的层次关系*
+
 ```mermaid
 graph TD
     User["用户 / 开发者"] --> CLI["Claude Code CLI"]
@@ -319,6 +323,10 @@ graph LR
 ## 四、MCP：让 Agent 接入世界上的任何工具
 
 ### MCP 是什么？
+
+![MCP 协议架构](images/ch07-mcp-architecture.png)
+
+*手绘图：MCP 协议架构——Claude Code 如何通过四种传输方式连接外部工具服务器*
 
 **Model Context Protocol** 是 Anthropic 提出的开放协议，解决的问题是：如何让 AI Agent 以标准化方式调用外部工具，而不需要把每个工具都硬编码进 Agent 本身？
 

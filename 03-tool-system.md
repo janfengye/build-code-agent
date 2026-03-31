@@ -2,6 +2,10 @@
 
 如果说大语言模型是 Agent 的大脑，那工具就是它的手脚。没有工具，模型只能生成文字；有了工具，它可以读写文件、执行命令、搜索代码库，甚至派生出新的子 Agent。Claude Code 的工具系统是整个项目里设计最精细的部分之一，本章将带你从接口定义一路读到具体实现。
 
+![工具系统总览](images/ch03-tool-overview.png)
+
+*手绘图：工具系统总览——模型、调度器与各类工具的协作关系*
+
 ```mermaid
 graph LR
     User([用户]) -->|自然语言指令| LLM[大语言模型\nClaude]
@@ -145,6 +149,10 @@ isDestructive?(input: z.infer<Input>): boolean
 | `renderGroupedToolUse` | 多个同类工具并发时，批量渲染 |
 
 注意 `renderToolUseMessage` 接收的是 `Partial<Input>`——因为 UI 会在工具参数**还没完全流式完成**时就开始渲染，这是流式体验的重要细节。
+
+![Tool 接口生命周期](images/ch03-tool-lifecycle.png)
+
+*手绘图：Tool 接口生命周期——从 tool_use 请求到 tool_result 返回的完整流程*
 
 ```mermaid
 sequenceDiagram
@@ -397,6 +405,10 @@ const ASSISTANT_BLOCKING_BUDGET_MS = 15_000
 ```
 
 如果一个 Bash 命令在主 Agent 里运行超过 15 秒，它会自动转入后台，主 Agent 继续处理其他任务。这避免了长时间的编译、测试等命令把整个对话卡住。
+
+![并发工具调度](images/ch03-concurrency.png)
+
+*手绘图：并发工具调度——只读与并发安全工具的并行执行策略*
 
 ```mermaid
 flowchart TD
